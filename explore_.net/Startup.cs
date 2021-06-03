@@ -1,3 +1,4 @@
+using explore_.net.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -18,8 +19,9 @@ namespace explore_.net
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        { 
-            services.AddControllers();
+        {
+            _ = services.AddControllers();
+            services.AddScoped<Interfaces.IPlaceRepository, PlacesCommands>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "explore_.net", Version = "v1" });
