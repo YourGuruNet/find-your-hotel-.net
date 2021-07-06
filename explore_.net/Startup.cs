@@ -1,3 +1,5 @@
+
+using explore_.net.Models;
 using explore_.net.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,6 +24,7 @@ namespace explore_.net
         {
             _ = services.AddControllers();
             services.AddScoped<Interfaces.IPlaceRepository, PlacesCommands>();
+            services.AddSingleton(Configuration.GetSection("ConnectionString").Get<ConnectionString>());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "explore_.net", Version = "v1" });

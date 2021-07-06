@@ -6,15 +6,13 @@ using System.Linq;
 using System.Data;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Threading.Tasks;
 using explore_.net.Interfaces;
 
 namespace explore_.net.Repository
 {
     public class PlacesCommands : IPlaceRepository
     {
-
-        public IList<Place> GetPlacesList()
+        public ActionResult<IList<Place>> GetPlacesList()
         {
             try
             {
@@ -41,7 +39,32 @@ namespace explore_.net.Repository
                 Console.WriteLine("Error {0}", ex);
                 return null;
             }
-             
+        }
+
+        public ActionResult<Place> AddNewOrEditPlace(Place place)
+        {
+            try
+            {
+                using SqlConnection connection = new(Constants.Constants.connectionString);
+                return connection.QueryFirstOrDefault<Place>("sp_places_Upsert", new {
+                    PlaceId = place.PlaceId,
+                    Title = place.Title,
+                    City = place.City,
+                    Adress = place.Adress,
+                    Country = place.Country,
+                    Description = place.Description,
+                    Latitude = place.Latitude,
+                    Longitude = place.Longitude,
+                    CreatorId = place.CreatorId,
+                    Picture = place.Picture,
+                }, commandType: CommandType.StoredProcedure);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error {0}", ex);
+                return null;
+            }
+
         }
     }
 }

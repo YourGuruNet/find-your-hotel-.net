@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using explore_.net.Interfaces;
 using explore_.net.Models;
-using explore_.net.Repository;
 using Microsoft.AspNetCore.Mvc;
 namespace explore_.net.Controllers
 {
@@ -16,7 +15,7 @@ namespace explore_.net.Controllers
         }
 
         [HttpGet]
-        public IList<Place> GetPlaces()
+        public ActionResult<IList<Place>> GetPlaces()
         {
             return placeCommands.GetPlacesList();
         }
@@ -25,6 +24,13 @@ namespace explore_.net.Controllers
         public ActionResult<Place> GetPlaceById(int id)
         {
             return placeCommands.GetPlaceById(id);
+        }
+
+        [HttpPost("AddOrEditPlace")]
+        public ActionResult<Place> AddOrEditPlace(Place place)
+        {
+            
+            return placeCommands.AddNewOrEditPlace(place);
         }
     }
 }
