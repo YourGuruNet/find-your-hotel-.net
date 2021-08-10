@@ -13,5 +13,6 @@ namespace explore_.net.Models
         public string Longitude { get; set; }
         public int CreatorId { get; set; }
         public string Picture { get; set; }
+        public string Logo { get; set; }
     }
 }

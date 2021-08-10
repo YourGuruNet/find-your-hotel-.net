@@ -19,7 +19,7 @@ namespace explore_.net.Repository
                 List<Place> items = new();
 
                 using SqlConnection connection = new SqlConnection(Constants.Constants.connectionString);
-                return connection.Query<Place>("Places_GetList").ToList();
+                return connection.Query<Place>("sp_cafe_getList").ToList();
             }
             catch (Exception ex)
             {
@@ -33,7 +33,7 @@ namespace explore_.net.Repository
             try
             {
                 using SqlConnection connection = new(Constants.Constants.connectionString);
-                return connection.QueryFirstOrDefault<Place>("Places_GetList_By_Id", new { placeId }, commandType: CommandType.StoredProcedure);
+                return connection.QueryFirstOrDefault<Place>("sp_cafe_getList_by_id", new { placeId }, commandType: CommandType.StoredProcedure);
             } catch (Exception ex)
             {
                 Console.WriteLine("Error {0}", ex);
@@ -46,7 +46,7 @@ namespace explore_.net.Repository
             try
             {
                 using SqlConnection connection = new(Constants.Constants.connectionString);
-                return connection.QueryFirstOrDefault<Place>("sp_places_Upsert", new {
+                return connection.QueryFirstOrDefault<Place>("sp_cafe_upsert", new {
                     PlaceId = place.PlaceId,
                     Title = place.Title,
                     City = place.City,
@@ -57,6 +57,7 @@ namespace explore_.net.Repository
                     Longitude = place.Longitude,
                     CreatorId = place.CreatorId,
                     Picture = place.Picture,
+                    Logo = place.Logo
                 }, commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)
