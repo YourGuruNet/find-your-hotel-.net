@@ -11,13 +11,13 @@ using explore_.net.Interfaces;
 namespace explore_.net.Repository
 {
     public class HotelCommands : IHotelRepository
-    {
+    { 
         public ActionResult<IList<Hotel>> GetHotelsList()
         {
             try
             {
                 List<Hotel> items = new();
-                using SqlConnection connection = new SqlConnection(Constants.Constants.connectionString);
+                using SqlConnection connection = new SqlConnection(Settings.BaseConnection);
                 return connection.Query<Hotel>("sp_getHotelsList").ToList();
             }
             catch (Exception ex)
@@ -31,7 +31,7 @@ namespace explore_.net.Repository
         {
             try
             {
-                using SqlConnection connection = new(Constants.Constants.connectionString);
+                using SqlConnection connection = new(Settings.BaseConnection);
                 return connection.QueryFirstOrDefault<Hotel>("sp_cafe_getList_by_id", new { hotelId }, commandType: CommandType.StoredProcedure);
             } catch (Exception ex)
             {
@@ -44,7 +44,7 @@ namespace explore_.net.Repository
         {
             try
             {
-                using SqlConnection connection = new(Constants.Constants.connectionString);
+                using SqlConnection connection = new(Settings.BaseConnection);
                 return connection.QueryFirstOrDefault<Hotel>("sp_cafe_upsert", new {
                     HotelId = place.HotelId,
                     Title = place.Title,

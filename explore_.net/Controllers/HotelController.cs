@@ -26,7 +26,7 @@ namespace explore_.net.Controllers
             return hotelCommands.GetHotelById(id);
         }
 
-        [HttpPost("AddOrEditPlace")]
+        [HttpPost("AddOrEditHotel")]
         public ActionResult<Hotel> AddOrEditHotel(Hotel place)
         {
             
