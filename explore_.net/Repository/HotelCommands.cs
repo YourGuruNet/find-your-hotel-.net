@@ -16,7 +16,6 @@ namespace explore_.net.Repository
         {
             try
             {
-                List<Hotel> items = new();
                 using SqlConnection connection = new SqlConnection(Settings.BaseConnection);
                 return connection.Query<Hotel>("sp_getHotelsList").ToList();
             }
@@ -49,7 +48,7 @@ namespace explore_.net.Repository
                     HotelId = place.HotelId,
                     Title = place.Title,
                     City = place.City,
-                    Adress = place.Adress,
+                    Adress = place.Address,
                     Country = place.Country,
                     Description = place.HotelDescription,
                     Latitude = place.Latitude,

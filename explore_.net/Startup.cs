@@ -24,7 +24,7 @@ namespace explore_.net
         {
             _ = services.AddControllers();
             services.AddScoped<Interfaces.IHotelRepository, HotelCommands>();
-            services.AddSingleton(Configuration.GetSection("ConnectionStrings").Get<ConnectionString>());
+            services.AddSingleton(Configuration.GetSection("ConnectionStrings").Get<Settings>());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hotel booking API", Version = "Beta" });
