@@ -3,6 +3,6 @@ namespace explore_.net.Models
 {
     public class Settings
     {
-        public static string BaseConnection { get; }
+        public static string BaseConnection { get; set;}
     }
 }

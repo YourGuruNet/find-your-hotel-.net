@@ -6,7 +6,6 @@ namespace explore_.net.Controllers
 {
     public class HotelsController : BaseApiController
     {
-        
         private readonly IHotelRepository hotelCommands;
 
         public HotelsController(IHotelRepository hotelCommands)
