@@ -12,7 +12,7 @@ namespace explore_.net.Repository
 {
     public class HotelCommands : IHotelRepository
     { 
-        public ActionResult<IList<Hotel>> GetHotelsList()
+        public ActionResult<IList<Hotel>>? GetHotelsList()
         {
             try
             {
@@ -26,7 +26,7 @@ namespace explore_.net.Repository
             }
         }
 
-        public ActionResult<Hotel> GetHotelById(int hotelId)
+        public ActionResult<Hotel>? GetHotelById(int hotelId)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace explore_.net.Repository
             }
         }
 
-        public ActionResult<Hotel> AddNewOrEditHotel(Hotel place)
+        public ActionResult<Hotel>? AddNewOrEditHotel(Hotel place)
         {
             try
             {
