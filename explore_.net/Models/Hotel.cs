@@ -6,7 +6,7 @@ namespace explore_.net.Models
     {
         public int HotelId { get; set; }
 
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         public string? City { get; set; }
 

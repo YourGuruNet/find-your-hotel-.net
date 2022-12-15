@@ -1,4 +1,5 @@
 
+using explore_.net.Helpers;
 using explore_.net.Models;
 using explore_.net.Repository;
 using Microsoft.AspNetCore.Builder;
@@ -24,6 +25,8 @@ namespace explore_.net
         {
             _ = services.AddControllers();
             services.AddScoped<Interfaces.IHotelRepository, HotelCommands>();
+            services.AddScoped<Interfaces.IUserRepository, UserCommands>();
+            services.AddScoped<JwtService>();
             services.AddSingleton(Configuration.GetSection("ConnectionStrings").Get<Settings>());
             services.AddSwaggerGen(c =>
             {
@@ -35,7 +38,7 @@ namespace explore_.net
             {
                 opt.AddPolicy("CorsPolicy", policy =>
                 {
-                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
+                    policy.AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithOrigins("http://localhost:3000");
                 });
             });
         }
@@ -49,7 +52,7 @@ namespace explore_.net
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "explore_.net v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Hotel booking API Beta"));
             }
 
             app.UseHttpsRedirection();
