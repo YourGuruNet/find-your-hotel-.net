@@ -24,6 +24,7 @@ namespace explore_.net
         public void ConfigureServices(IServiceCollection services)
         {
             _ = services.AddControllers();
+            services.AddHttpClient();
             services.AddScoped<Interfaces.IHotelRepository, HotelCommands>();
             services.AddScoped<Interfaces.IUserRepository, UserCommands>();
             services.AddScoped<JwtService>();

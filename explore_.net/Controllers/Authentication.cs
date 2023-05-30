@@ -39,7 +39,16 @@ namespace explore_.net.Controllers
         [HttpPost("AddUser")]
         public ActionResult<CreateUser> AddUser(CreateUser user)
         {
-            return userCommands.AddNewUser(user);
+
+            try
+            {
+                userCommands.AddNewUser(user);
+                return Ok(new { succes = true });
+            }
+            catch
+            {
+                return Ok(new {succes = true, message = "Failed to create new user" });
+            }
         }
 
         [HttpGet("User")]

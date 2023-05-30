@@ -44,18 +44,18 @@ namespace explore_.net.Repository
             try
             {
                 using SqlConnection connection = new(Settings.BaseConnection);
-                return connection.QueryFirstOrDefault<Hotel>("sp_cafe_upsert", new {
+                return connection.QueryFirstOrDefault<Hotel>("sp_hotel_upsert", new {
                     HotelId = place.HotelId,
                     Title = place.Title,
                     City = place.City,
-                    Adress = place.Address,
+                    Address = place.Address,
                     Country = place.Country,
-                    Description = place.HotelDescription,
+                    HotelDescription = place.HotelDescription,
                     Latitude = place.Latitude,
                     Longitude = place.Longitude,
-                    CreatorId = place.CreatorId,
-                    Picture = place.PictureUrl,
-                    Logo = place.Logo
+                    PictureUrl = place.PictureUrl,
+                    Logo = place.Logo,
+                    CreatorId = place.CreatorId
                 }, commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)
