@@ -55,7 +55,10 @@ namespace explore_.net.Repository
                     Longitude = place.Longitude,
                     PictureUrl = place.PictureUrl,
                     Logo = place.Logo,
-                    CreatorId = place.CreatorId
+                    CreatorId = place.CreatorId,
+                    FiltersList = place.FiltersList,
+                    LabelsList = place.LabelsList
+
                 }, commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)

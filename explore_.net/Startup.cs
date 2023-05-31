@@ -4,6 +4,7 @@ using explore_.net.Models;
 using explore_.net.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,6 +24,7 @@ namespace explore_.net
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             _ = services.AddControllers();
             services.AddHttpClient();
             services.AddScoped<Interfaces.IHotelRepository, HotelCommands>();
@@ -31,16 +33,14 @@ namespace explore_.net
             services.AddSingleton(Configuration.GetSection("ConnectionStrings").Get<Settings>());
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hotel booking API", Version = "Beta" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hotel booking API", Version = "V1" });
             });
 
-
-            services.AddCors(opt =>
+            services.Configure<CookiePolicyOptions>(options =>
             {
-                opt.AddPolicy("CorsPolicy", policy =>
-                {
-                    policy.AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithOrigins("http://localhost:3000");
-                });
+                options.MinimumSameSitePolicy = SameSiteMode.Lax; // Set the SameSite policy to Lax
+                options.Secure = CookieSecurePolicy.Always; // Set the Secure policy to ensure cookies are sent only over HTTPS
+                options.HttpOnly = Microsoft.AspNetCore.CookiePolicy.HttpOnlyPolicy.Always; // Set the HttpOnly policy to prevent client-side access
             });
         }
 
@@ -53,14 +53,17 @@ namespace explore_.net
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Hotel booking API Beta"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Hotel booking API"));
             }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors("CorsPolicy");
-
+            app.UseCors(options =>
+            {
+                options.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+            });
+            app.UseCookiePolicy();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

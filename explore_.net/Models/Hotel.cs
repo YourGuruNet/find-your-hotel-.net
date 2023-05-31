@@ -26,10 +26,9 @@ namespace explore_.net.Models
 
         public string? Logo { get; set; }
 
-        //public string? FiltersList { get; set; }
+        public string? FiltersList { get; set; }
 
-        //public string? LabelsList { get; set; }
+        public string? LabelsList { get; set; }
 
-        //public string? Name { get; set; }
     }
 }

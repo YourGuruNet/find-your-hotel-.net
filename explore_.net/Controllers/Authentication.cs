@@ -28,12 +28,7 @@ namespace explore_.net.Controllers
             }
             var token = jwtService.GenerateToken(userInfo.UserId);
 
-            Response.Cookies.Append("token", token, new CookieOptions
-            {
-                HttpOnly = true
-            });
-
-            return Ok(new { message = "Succes" });
+            return Ok(new { success = true, token });
         }
 
         [HttpPost("AddUser")]
@@ -47,7 +42,7 @@ namespace explore_.net.Controllers
             }
             catch
             {
-                return Ok(new {succes = true, message = "Failed to create new user" });
+                return Ok(new {success = true, message = "Failed to create new user" });
             }
         }
 
@@ -66,13 +61,6 @@ namespace explore_.net.Controllers
                 return Unauthorized(); 
             }
         
-        }
-
-        [HttpPost("LogOut")]
-        public ActionResult LogOut()
-        {
-            Response.Cookies.Delete("token");
-            return Ok(new { message = "Loged out" });
         }
     }
 }
