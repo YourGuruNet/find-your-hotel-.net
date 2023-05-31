@@ -14,24 +14,19 @@ namespace explore_.net.Controllers
     public class HotelsController : BaseApiController
     {
         private readonly IHotelRepository hotelCommands;
-        private readonly HttpClient _httpClient;
 
 
-        public HotelsController(IHotelRepository hotelCommands, IHttpClientFactory httpClientFactory)
+        public HotelsController(IHotelRepository hotelCommands)
         {
-            this.hotelCommands = hotelCommands;
-            _httpClient = httpClientFactory.CreateClient();
-            _httpClient.DefaultRequestHeaders.Add("X-RapidAPI-Key", "ff98d447d7msh67a868efb5bdce7p182461jsn8323cd5cf915");
-            _httpClient.DefaultRequestHeaders.Add("X-RapidAPI-Host", "skyscanner-skyscanner-hotel-prices-v1.p.rapidapi.com");
+            this.hotelCommands = hotelCommands;   
         }
 
 
 
-            [HttpGet]
+        [HttpGet]
         public ActionResult<IList<Hotel>> GetHotelsList()
         {
-            var a = hotelCommands.GetHotelsList();
-            return a;
+            return hotelCommands.GetHotelsList();
         }
 
         [HttpGet("{id}")]
