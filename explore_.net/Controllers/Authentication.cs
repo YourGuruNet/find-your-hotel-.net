@@ -1,7 +1,6 @@
 ﻿using explore_.net.Helpers;
 using explore_.net.Interfaces;
 using explore_.net.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace explore_.net.Controllers

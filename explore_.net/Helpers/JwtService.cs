@@ -2,12 +2,20 @@
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.Extensions.Configuration;
 
 namespace explore_.net.Helpers
 {
     public class JwtService
     {
-        private string secureKey = "this is a very secure key";
+        private string secureKey;
+        private readonly IConfiguration _configuration;
+
+        public JwtService(IConfiguration configuration)
+        {
+            _configuration = configuration;
+            secureKey = _configuration["Jwt:Key"];
+        }
 
         public string GenerateToken(int id)
         {
@@ -15,7 +23,13 @@ namespace explore_.net.Helpers
             var credentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
             var header = new JwtHeader(credentials);
             // Valid on year!!!
-            var payload = new JwtPayload(id.ToString(), null, null, null, DateTime.Today.AddYears(1));
+            var payload = new JwtPayload
+            {
+                { "id", id },
+                { "iss", _configuration["Jwt:Issuer"] },
+                { "aud", _configuration["Jwt:Audience"] },
+                { "exp", DateTimeOffset.UtcNow.AddDays(1).ToUnixTimeSeconds() } // Token expiration time
+            };
             var securityToken = new JwtSecurityToken(header, payload);
 
             return new JwtSecurityTokenHandler().WriteToken(securityToken);
@@ -29,11 +43,14 @@ namespace explore_.net.Helpers
                 new TokenValidationParameters {
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuerSigningKey = true,
-                    ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidIssuer = _configuration["Jwt:Issuer"],
+                    ValidateIssuer = true,
+                    ValidAudience = _configuration["Jwt:Audience"],
+                    ValidateAudience = true
                 }, out SecurityToken securityToken);
 
             return (JwtSecurityToken)securityToken;
         }
     }
 }
+
