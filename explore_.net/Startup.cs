@@ -40,11 +40,10 @@ namespace explore_.net
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateActor = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
+                    ValidateAudience = false,
+                    ValidateLifetime = false,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = Configuration["Jwt:Issuer"],
-                    ValidAudience = Configuration["Jwt:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                 };
             });
@@ -110,7 +109,9 @@ namespace explore_.net
                 options.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
             });
             app.UseCookiePolicy();
+            app.UseAuthentication();
             app.UseAuthorization();
+      
 
             app.UseEndpoints(endpoints =>
             {

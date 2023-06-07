@@ -27,7 +27,6 @@ namespace explore_.net.Helpers
             {
                 { "id", id },
                 { "iss", _configuration["Jwt:Issuer"] },
-                { "aud", _configuration["Jwt:Audience"] },
                 { "exp", DateTimeOffset.UtcNow.AddDays(1).ToUnixTimeSeconds() } // Token expiration time
             };
             var securityToken = new JwtSecurityToken(header, payload);
