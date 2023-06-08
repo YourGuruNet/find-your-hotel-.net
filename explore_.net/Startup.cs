@@ -35,6 +35,8 @@ namespace explore_.net
             services.AddScoped<Interfaces.IUserRepository, UserCommands>();
             services.AddScoped<JwtService>();
             services.AddSingleton(Configuration.GetSection("ConnectionStrings").Get<Settings>());
+            services.AddSingleton(Configuration.GetSection("DeepLinksSettings").Get<Settings>());
+            services.AddSingleton(Configuration.GetSection("Mail").Get<Settings>());
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters()

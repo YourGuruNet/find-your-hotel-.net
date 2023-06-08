@@ -19,7 +19,11 @@ namespace explore_.net.Controllers
         [HttpPost("Login")]
         public ActionResult Login(Login login)
         {
-            var userInfo = userCommands.Login(login);
+            if (login.Email == "" || login.Password == "")
+            {
+                return Ok(new { success = false, message = "Invalid Creditials" });
+            }
+            var userInfo = userCommands.GetUser(login);
             var validateEmailAndPassword = userInfo.Email != login.Email || !BCrypt.Net.BCrypt.Verify(login.Password, userInfo.Password);
             if (validateEmailAndPassword)
             {
@@ -33,11 +37,10 @@ namespace explore_.net.Controllers
         [HttpPost("AddUser")]
         public ActionResult<CreateUser> AddUser(CreateUser user)
         {
-
             try
             {
                 userCommands.AddNewUser(user);
-                return Ok(new { succes = true });
+                return Ok(new { success = true });
             }
             catch
             {
@@ -45,21 +48,58 @@ namespace explore_.net.Controllers
             }
         }
 
-        [HttpGet("User")]
-        public ActionResult User()
+        [HttpPost("CheckUser")]
+        public ActionResult CheckUser(Key key)
         {
-            try
+
+            if(key.SecretKey == "")
             {
-                var token = Request.Cookies["token"];
-                var vertifyToken = jwtService.Vertify(token);
-                int userId = int.Parse(vertifyToken.Issuer);
-                var user = userCommands.GetUserById(userId);
-                return Ok(user);
+                return Ok(new { success = false, message = "No valid key" });
+            }
+
+            try
+            {      
+                var userId = jwtService.GetUserIdFromToken(key.SecretKey);
+
+                if (userId == "" || userId == null)
+                {
+                    return Ok(new { success = false, message = "No valid key" });
+                }
+
+                var user = userCommands.GetUserById(int.Parse(userId));
+                if (user == null)
+                {
+                    return Ok(new { success = false, message = "No valid user" });
+                }
+
+                var isActiveKey = userCommands.ChekIfKeyValid(new Key { SecretKey = key.SecretKey, UserId = int.Parse(userId) });
+
+                if (!isActiveKey)
+                {
+                    return Ok(new { success = false, message = "Key is not active" });
+                }
+
+                return Ok(new { success = true, user });
             } catch
             {
-                return Unauthorized(); 
+                return Ok(new { success = false, message= "Wrong key" });
             }
         
         }
+
+
+        [HttpPost("SetNewPasswordLink")]
+        public ActionResult SetNewPasswordLink(Login login)
+        {
+            if (login.Email == "")
+            {
+                return Ok(new { success = false, message = "No email" });
+            }
+
+            var result = userCommands.GeneratePasswordChangLink(login.Email);
+
+            return Ok(new { success = result });
+        }
+
     }
 }

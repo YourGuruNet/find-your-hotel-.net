@@ -3,6 +3,8 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Configuration;
+using System.Security.Claims;
+using System.Linq;
 
 namespace explore_.net.Helpers
 {
@@ -44,11 +46,54 @@ namespace explore_.net.Helpers
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = _configuration["Jwt:Issuer"],
                     ValidateIssuer = true,
-                    ValidAudience = _configuration["Jwt:Audience"],
-                    ValidateAudience = true
+                    ValidateAudience = false
                 }, out SecurityToken securityToken);
 
             return (JwtSecurityToken)securityToken;
+        }
+
+        public string GenerateResetToken(string userId)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(secureKey);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.Name, userId)
+                }),
+                Expires = DateTime.UtcNow.AddHours(24),
+                Issuer = _configuration["Jwt:Issuer"],
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
+
+        public string GetUserIdFromToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(secureKey);
+
+            var validationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = false,
+                ValidateLifetime = true,
+                ValidIssuer = _configuration["Jwt:Issuer"],
+                IssuerSigningKey = new SymmetricSecurityKey(key)
+            };
+
+            var principal = tokenHandler.ValidateToken(token, validationParameters, out var validatedToken);
+
+            if (validatedToken is JwtSecurityToken jwtSecurityToken &&
+                jwtSecurityToken.Claims.FirstOrDefault(c => c.Type == "unique_name") is Claim claim)  
+            {
+                return claim.Value;
+            }
+            return null; 
         }
     }
 }

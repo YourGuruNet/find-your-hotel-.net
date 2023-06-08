@@ -7,7 +7,9 @@ namespace explore_.net.Interfaces
     public interface IUserRepository
     {
         public ActionResult<CreateUser> AddNewUser(CreateUser user);
-        public User Login(Login login);
+        public User GetUser(Login login);
         public User GetUserById(int userId);
+        public bool GeneratePasswordChangLink(string email);
+        public bool ChekIfKeyValid(Key key);
     }
 }
