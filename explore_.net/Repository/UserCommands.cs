@@ -14,10 +14,10 @@ namespace explore_.net.Repository
         private readonly JwtService jwtService;
 
         public UserCommands(JwtService jwtService)
-        {
-     
+        { 
             this.jwtService = jwtService;
         }
+
         public ActionResult<CreateUser>? AddNewUser(CreateUser user)
         {
             try
@@ -36,7 +36,6 @@ namespace explore_.net.Repository
                 Console.WriteLine("Error {0}", ex);
                 return null;
             }
-
         }
 
         public User? GetUser(Login login)
@@ -55,7 +54,6 @@ namespace explore_.net.Repository
                 Console.WriteLine("Error {0}", ex);
                 return null;
             }
-
         }
 
         public User GetUserById(int userId)
@@ -74,7 +72,6 @@ namespace explore_.net.Repository
                 Console.WriteLine("Error {0}", ex);
                 return new User();
             }
-
         }
 
 
