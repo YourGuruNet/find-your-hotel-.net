@@ -11,5 +11,6 @@ namespace explore_.net.Interfaces
         public User GetUserById(int userId);
         public bool GeneratePasswordChangLink(string email);
         public bool ChekIfKeyValid(Key key);
+        public bool ChangePassword(Login login);
     }
 }

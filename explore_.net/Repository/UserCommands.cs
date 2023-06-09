@@ -56,6 +56,41 @@ namespace explore_.net.Repository
             }
         }
 
+        public bool ChangePassword(Login login)
+        {
+            var userId = jwtService.GetUserIdFromToken(login.Key);
+
+            if (userId == "" || userId == null)
+            {
+                return false; 
+            }
+
+            var isKeyValid = ChekIfKeyValid(new Key { SecretKey = login.Key, UserId = int.Parse(userId) });
+
+            if (!isKeyValid)
+            {
+                return false;
+            }
+
+            var cryptedPassword = BCrypt.Net.BCrypt.HashPassword(login.Password);
+
+            try
+            {
+                using SqlConnection connection = new(Settings.BaseConnection);
+                var user = connection.QueryFirstOrDefault<Login>("sp_user_changePassword", new
+                {
+                    userId = int.Parse(userId),
+                    Password = cryptedPassword
+                }, commandType: CommandType.StoredProcedure);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error {0}", ex);
+                return false;
+            }
+        }
+
         public User GetUserById(int userId)
         {
             try
@@ -91,7 +126,6 @@ namespace explore_.net.Repository
                 Console.WriteLine("Error {0}", ex);
                 return null;
             }
-
         }
 
 
@@ -112,7 +146,6 @@ namespace explore_.net.Repository
             EmailSender.SendEmail("arvisiljins@gmail.com", "Password reset link", link);
 
             return true;
-
         }
 
         public bool ChekIfKeyValid(Key key)
@@ -137,7 +170,6 @@ namespace explore_.net.Repository
                 Console.WriteLine("Error {0}", ex);
                 return false;
             }
-
         }
     }
 }

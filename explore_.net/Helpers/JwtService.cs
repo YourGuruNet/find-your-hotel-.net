@@ -29,7 +29,7 @@ namespace explore_.net.Helpers
             {
                 { "id", id },
                 { "iss", _configuration["Jwt:Issuer"] },
-                { "exp", DateTimeOffset.UtcNow.AddDays(1).ToUnixTimeSeconds() } // Token expiration time
+                { "exp", DateTimeOffset.UtcNow.AddYears(1).ToUnixTimeSeconds() } // Token expiration time
             };
             var securityToken = new JwtSecurityToken(header, payload);
 

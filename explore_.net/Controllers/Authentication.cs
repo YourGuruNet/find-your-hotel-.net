@@ -40,11 +40,11 @@ namespace explore_.net.Controllers
             try
             {
                 userCommands.AddNewUser(user);
-                return Ok(new { success = true });
+                return Ok(new { success = true, message = "Account created successfully" });
             }
             catch
             {
-                return Ok(new {success = true, message = "Failed to create new user" });
+                return Ok(new {success = false, message = "Failed to create new user" });
             }
         }
 
@@ -101,5 +101,17 @@ namespace explore_.net.Controllers
             return Ok(new { success = result });
         }
 
+        [HttpPost("ChangePassword")]
+        public ActionResult ChangePassword(Login login)
+        {
+            if (login.Password == "")
+            {
+                return Ok(new { success = false, message = "Plese add valid password" });
+            }
+
+            var result = userCommands.ChangePassword(login);
+
+            return Ok(new { success = result });
+        }
     }
 }
