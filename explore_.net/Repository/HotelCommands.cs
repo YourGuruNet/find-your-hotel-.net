@@ -45,19 +45,19 @@ namespace explore_.net.Repository
             {
                 using SqlConnection connection = new(Settings.BaseConnection);
                 return connection.QueryFirstOrDefault<Hotel>("sp_hotel_upsert", new {
-                    HotelId = place.HotelId,
-                    Title = place.Title,
-                    City = place.City,
-                    Address = place.Address,
-                    Country = place.Country,
-                    HotelDescription = place.HotelDescription,
-                    Latitude = place.Latitude,
-                    Longitude = place.Longitude,
-                    PictureUrl = place.PictureUrl,
-                    Logo = place.Logo,
-                    CreatorId = place.CreatorId,
-                    FiltersList = place.FiltersList,
-                    LabelsList = place.LabelsList
+                    place.HotelId,
+                    place.Title,
+                    place.City,
+                    place.Address,
+                    place.Country,
+                    place.HotelDescription,
+                    place.Latitude,
+                    place.Longitude,
+                    place.PictureUrl,
+                    place.Logo,
+                    place.CreatorId,
+                    place.FiltersList,
+                    place.LabelsList
 
                 }, commandType: CommandType.StoredProcedure);
             }
