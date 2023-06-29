@@ -1,14 +1,19 @@
-﻿
+﻿using HotelBooking.Interfaces;
 
 namespace UnitTests;
-using Moq;
 
 public class HotelCommandsTest
 {
+    private readonly IHotelRepository hotelCommands;
+
+    public HotelCommandsTest(IHotelRepository hotelCommands)
+    {
+        this.hotelCommands = hotelCommands;
+    }
+
     [Fact]
     public void GetHotelsList_Successful()
     {
-        var serviceMock = new Mock<IHotelRepository>();
         hotelCommands.GetHotelsList();
     }
 }
