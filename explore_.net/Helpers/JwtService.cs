@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 using System.Linq;
 
-namespace explore_.net.Helpers
+namespace HotelBooking.Helpers
 {
     public class JwtService
     {

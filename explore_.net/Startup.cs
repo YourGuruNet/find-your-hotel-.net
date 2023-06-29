@@ -1,7 +1,7 @@
 
-using explore_.net.Helpers;
-using explore_.net.Models;
-using explore_.net.Repository;
+using HotelBooking.Helpers;
+using HotelBooking.Models;
+using HotelBooking.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -13,7 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 
-namespace explore_.net
+namespace HotelBooking
 {
     public class Startup
     {

@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using System.Net.Mail;
-using explore_.net.Models;
+using HotelBooking.Models;
 
 public class EmailSender
 {

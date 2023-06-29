@@ -1,9 +1,9 @@
-﻿using explore_.net.Helpers;
-using explore_.net.Interfaces;
-using explore_.net.Models;
+﻿using HotelBooking.Helpers;
+using HotelBooking.Interfaces;
+using HotelBooking.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace explore_.net.Controllers
+namespace HotelBooking.Controllers
 {
     public class Authentication: BaseApiController
     {

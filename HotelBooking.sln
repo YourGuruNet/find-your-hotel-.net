@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.809.9
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "explore_.net", "explore_.net\explore_.net.csproj", "{706B8607-9962-4E8D-A07F-D3B7A65927DC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{ED87413A-9753-4B06-BBD0-D030A87FC8F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking", "explore_.net\HotelBooking.csproj", "{706B8607-9962-4E8D-A07F-D3B7A65927DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		{706B8607-9962-4E8D-A07F-D3B7A65927DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{706B8607-9962-4E8D-A07F-D3B7A65927DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{706B8607-9962-4E8D-A07F-D3B7A65927DC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ED87413A-9753-4B06-BBD0-D030A87FC8F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED87413A-9753-4B06-BBD0-D030A87FC8F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ED87413A-9753-4B06-BBD0-D030A87FC8F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ED87413A-9753-4B06-BBD0-D030A87FC8F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

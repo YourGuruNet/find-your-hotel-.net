@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace explore_.net.Controllers
+namespace HotelBooking.Controllers
 {
 
     [ApiController]

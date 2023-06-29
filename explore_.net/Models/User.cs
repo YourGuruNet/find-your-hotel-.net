@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace explore_.net.Models
+namespace HotelBooking.Models
 {
     public class User
     {

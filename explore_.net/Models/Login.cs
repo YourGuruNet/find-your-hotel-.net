@@ -1,5 +1,5 @@
 ﻿
-namespace explore_.net.Models
+namespace HotelBooking.Models
 {
     public class Login
     {

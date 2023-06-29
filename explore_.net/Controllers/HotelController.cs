@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using explore_.net.Interfaces;
-using explore_.net.Models;
+using HotelBooking.Interfaces;
+using HotelBooking.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace explore_.net.Controllers
+namespace HotelBooking.Controllers
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class HotelsController : BaseApiController

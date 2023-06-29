@@ -6,6 +6,8 @@
     <ImpliciteUsing>enable</ImpliciteUsing>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'explore_.net' " />
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'HotelBooking.net' " />
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     <PackageReference Include="MediatR" Version="9.0.0" />
@@ -19,6 +21,7 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.1" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.16" />
+    <PackageReference Include="Moq" Version="4.18.4" />
   </ItemGroup>
 
   <ItemGroup>

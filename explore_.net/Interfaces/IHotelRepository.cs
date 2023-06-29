@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using explore_.net.Models;
+using HotelBooking.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace explore_.net.Interfaces
+namespace HotelBooking.Interfaces
 {
     public interface IHotelRepository
     {

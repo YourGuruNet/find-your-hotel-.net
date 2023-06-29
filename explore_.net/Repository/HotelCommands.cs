@@ -1,14 +1,14 @@
 ﻿using Dapper;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using explore_.net.Models;
+using HotelBooking.Models;
 using System.Linq;
 using System.Data;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using explore_.net.Interfaces;
+using HotelBooking.Interfaces;
 
-namespace explore_.net.Repository
+namespace HotelBooking.Repository
 {
     public class HotelCommands : IHotelRepository
     { 

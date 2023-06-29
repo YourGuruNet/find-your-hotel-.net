@@ -2,12 +2,12 @@
 using System.Data;
 using System.Data.SqlClient;
 using Dapper;
-using explore_.net.Helpers;
-using explore_.net.Interfaces;
-using explore_.net.Models;
+using HotelBooking.Helpers;
+using HotelBooking.Interfaces;
+using HotelBooking.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace explore_.net.Repository
+namespace HotelBooking.Repository
 {
     public class UserCommands : IUserRepository
     {
