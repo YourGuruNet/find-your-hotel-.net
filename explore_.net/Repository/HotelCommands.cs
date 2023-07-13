@@ -12,7 +12,7 @@ namespace HotelBooking.Repository
 {
     public class HotelCommands : IHotelRepository
     { 
-        public ActionResult<IList<Hotel>>? GetHotelsList()
+        public ActionResult<List<Hotel>>? GetHotelsList()
         {
             try
             {

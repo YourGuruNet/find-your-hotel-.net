@@ -18,7 +18,7 @@ namespace HotelBooking.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IList<Hotel>> GetHotelsList()
+        public ActionResult<List<Hotel>> GetHotelsList()
         {
             return hotelCommands.GetHotelsList();
         }
