@@ -32,7 +32,6 @@ namespace HotelBooking.Controllers
         [HttpPost("AddOrEditHotel")]
         public ActionResult<Hotel> AddOrEditHotel(Hotel place)
         {
-            
             return hotelCommands.AddNewOrEditHotel(place);
         }
     }
