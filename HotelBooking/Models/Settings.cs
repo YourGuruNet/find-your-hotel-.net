@@ -10,5 +10,9 @@ namespace HotelBooking.Models
         public static string? Mail { get; set; }
         public static string? Password { get; set; }
         public static string? Host { get; set; }
+        
     }
+
 }
+
+

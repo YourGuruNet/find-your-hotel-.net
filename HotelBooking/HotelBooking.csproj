@@ -21,6 +21,7 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.1" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.16" />
+    <PackageReference Include="NEST" Version="7.17.5" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +30,7 @@
     <Folder Include="Repository\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Helpers\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="BCrypt.Net-Next" />
@@ -38,5 +40,6 @@
     <None Remove="System.IdentityModel.Tokens.Jwt" />
     <None Remove="Microsoft.AspNetCore.Cors" />
     <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <None Remove="Extensions\" />
   </ItemGroup>
 </Project>

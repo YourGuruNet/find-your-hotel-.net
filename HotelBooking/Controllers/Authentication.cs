@@ -21,13 +21,13 @@ namespace HotelBooking.Controllers
         {
             if (login.Email == "" || login.Password == "")
             {
-                return Ok(new { success = false, message = "Invalid Creditials" });
+                return Ok(new { success = false, message = "Invalid Credentials" });
             }
             var userInfo = userCommands.GetUser(login);
             var validateEmailAndPassword = userInfo.Email != login.Email || !BCrypt.Net.BCrypt.Verify(login.Password, userInfo.Password);
             if (validateEmailAndPassword)
             {
-                return Ok(new { success = false, message = "Invalid Creditials" });
+                return Ok(new { success = false, message = "Invalid Credentials" });
             }
             var token = jwtService.GenerateToken(userInfo.UserId);
 

@@ -12,6 +12,9 @@ using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
+using HotelBooking.Extensions;
+using HotelBooking.Interfaces;
+using Nest;
 
 namespace HotelBooking
 {
@@ -31,10 +34,13 @@ namespace HotelBooking
             services.AddHttpClient();
             services.AddScoped<Interfaces.IHotelRepository, HotelCommands>();
             services.AddScoped<Interfaces.IUserRepository, UserCommands>();
+            services.AddScoped<Interfaces.IElasticSearchRepository, ElasticSearchComands>();
             services.AddScoped<JwtService>();
             services.AddSingleton(Configuration.GetSection("ConnectionStrings").Get<Settings>());
             services.AddSingleton(Configuration.GetSection("DeepLinksSettings").Get<Settings>());
             services.AddSingleton(Configuration.GetSection("Mail").Get<Settings>());
+            services.AddElasticSearch(Configuration);
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters()
