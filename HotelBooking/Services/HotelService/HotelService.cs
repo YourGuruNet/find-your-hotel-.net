@@ -4,46 +4,58 @@ using System.Data.SqlClient;
 using HotelBooking.Models;
 using System.Linq;
 using System.Data;
-using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading.Tasks;
 
 namespace HotelBooking.Service.HotelService
 {
     public class HotelService : IHotelService
     { 
-        public ActionResult<List<Hotel>>? GetHotelsList()
+        public async Task<ServiceResponse<List<Hotel>>> GetHotelsList()
         {
+            var serviceResponse = new ServiceResponse<List<Hotel>>();
             try
             {
-                using SqlConnection connection = new SqlConnection(Settings.BaseConnection);
-                return connection.Query<Hotel>("sp_getHotelsList").ToList();
+                using SqlConnection connection = new(Settings.BaseConnection);
+                var hotels = await connection.QueryAsync<Hotel>("sp_getHotelsList");
+                serviceResponse.Data = hotels.ToList();
+                return serviceResponse;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error {0}", ex);
-                return null;
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+                return serviceResponse;
             }
         }
 
-        public ActionResult<Hotel>? GetHotelById(int hotelId)
+        public async Task<ServiceResponse<Hotel>> GetHotelById(int hotelId)
         {
+            var serviceResponse = new ServiceResponse<Hotel>();
             try
             {
                 using SqlConnection connection = new(Settings.BaseConnection);
-                return connection.QueryFirstOrDefault<Hotel>("sp_cafe_getList_by_id", new { hotelId }, commandType: CommandType.StoredProcedure);
+                var hotel = (await connection.QueryFirstOrDefaultAsync<Hotel>("sp_cafe_getList_by_id",
+                 new { hotelId }, commandType: CommandType.StoredProcedure)) ?? throw new Exception($"Hotels not found");
+            
+                serviceResponse.Data = hotel;
+                return serviceResponse;
+            
             } catch (Exception ex)
             {
-                Console.WriteLine("Error {0}", ex);
-                return null;
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+                return serviceResponse;
             }
         }
 
-        public ActionResult<Hotel>? AddNewOrEditHotel(Hotel place)
+        public async Task<ServiceResponse<Hotel>> AddNewOrEditHotel(Hotel place)
         {
+             var serviceResponse = new ServiceResponse<Hotel>();
             try
             {
                 using SqlConnection connection = new(Settings.BaseConnection);
-                return connection.QueryFirstOrDefault<Hotel>("sp_hotel_upsert", new {
+                var hotel =  await connection.QueryFirstOrDefaultAsync<Hotel>("sp_hotel_upsert", new {
                     place.HotelId,
                     place.Title,
                     place.City,
@@ -59,11 +71,15 @@ namespace HotelBooking.Service.HotelService
                     place.LabelsList
 
                 }, commandType: CommandType.StoredProcedure);
+
+                serviceResponse.Data = hotel;
+                return serviceResponse;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error {0}", ex);
-                return null;
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+                return serviceResponse;
             }
 
         }

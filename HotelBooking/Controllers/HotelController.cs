@@ -1,4 +1,6 @@
-﻿using HotelBooking.Models;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using HotelBooking.Models;
 using HotelBooking.Service.HotelService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -20,21 +22,21 @@ public class HotelsController : MyController
     #endregion
 
     [HttpGet]
-    public ActionResult GetHotelsList()
+    public async Task<ActionResult<ServiceResponse<List<Hotel>>>> GetHotelsList()
     {
-        return Ok(_hotelService.GetHotelsList());
+        return Ok(await _hotelService.GetHotelsList());
     }
 
     [HttpGet("{id}")]
-    public ActionResult<Hotel> GetHotelById(int id)
+    public async Task<ActionResult<ServiceResponse<Hotel>>> GetHotelById(int id)
     {
-        return _hotelService.GetHotelById(id);
+        return Ok(await _hotelService.GetHotelById(id));
     }
 
     [HttpPost("AddOrEdit")]
-    public ActionResult<Hotel> AddOrEditHotel(Hotel place)
+    public async Task<ActionResult<ServiceResponse<Hotel>>> AddOrEditHotel(Hotel place)
     {
-        return _hotelService.AddNewOrEditHotel(place);
+        return Ok(await _hotelService.AddNewOrEditHotel(place));
     }
 }
 
