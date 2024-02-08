@@ -1,7 +1,5 @@
 
-using HotelBooking.Helpers;
 using HotelBooking.Models;
-using HotelBooking.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -13,8 +11,10 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using HotelBooking.Extensions;
-using HotelBooking.Interfaces;
-using Nest;
+using HotelBooking.Service.HotelService;
+using HotelBooking.Service.UserService;
+using HotelBooking.Service.ElasticService;
+using HotelBooking.Service.JwtServices;
 
 namespace HotelBooking
 {
@@ -32,9 +32,9 @@ namespace HotelBooking
             services.AddCors();
             _ = services.AddControllers();
             services.AddHttpClient();
-            services.AddScoped<Interfaces.IHotelRepository, HotelCommands>();
-            services.AddScoped<Interfaces.IUserRepository, UserCommands>();
-            services.AddScoped<Interfaces.IElasticSearchRepository, ElasticSearchComands>();
+            services.AddScoped<IHotelService, HotelService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IElasticService, ElasticService>();
             services.AddScoped<JwtService>();
             services.AddSingleton(Configuration.GetSection("ConnectionStrings").Get<Settings>());
             services.AddSingleton(Configuration.GetSection("DeepLinksSettings").Get<Settings>());

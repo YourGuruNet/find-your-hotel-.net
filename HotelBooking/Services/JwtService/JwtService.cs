@@ -6,11 +6,11 @@ using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 using System.Linq;
 
-namespace HotelBooking.Helpers
+namespace HotelBooking.Service.JwtServices
 {
     public class JwtService
     {
-        private string secureKey;
+        private readonly string secureKey;
         private readonly IConfiguration _configuration;
 
         public JwtService(IConfiguration configuration)
@@ -24,19 +24,18 @@ namespace HotelBooking.Helpers
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secureKey));
             var credentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
             var header = new JwtHeader(credentials);
-            // Valid on year!!!
             var payload = new JwtPayload
             {
                 { "id", id },
                 { "iss", _configuration["Jwt:Issuer"] },
-                { "exp", DateTimeOffset.UtcNow.AddYears(1).ToUnixTimeSeconds() } // Token expiration time
+                { "exp", DateTimeOffset.UtcNow.AddYears(1).ToUnixTimeSeconds() }
             };
             var securityToken = new JwtSecurityToken(header, payload);
 
             return new JwtSecurityTokenHandler().WriteToken(securityToken);
         }
 
-        public JwtSecurityToken Vertify(string token)
+        public JwtSecurityToken Verify(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(secureKey);

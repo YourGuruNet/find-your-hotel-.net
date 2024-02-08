@@ -6,11 +6,10 @@ using System.Linq;
 using System.Data;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using HotelBooking.Interfaces;
 
-namespace HotelBooking.Repository
+namespace HotelBooking.Service.HotelService
 {
-    public class HotelCommands : IHotelRepository
+    public class HotelService : IHotelService
     { 
         public ActionResult<List<Hotel>>? GetHotelsList()
         {

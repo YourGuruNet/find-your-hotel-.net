@@ -1,6 +1,5 @@
-﻿using System.Threading.Tasks;
-using HotelBooking.Interfaces;
-using HotelBooking.Models;
+﻿using HotelBooking.Models;
+using HotelBooking.Service.HotelService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,38 +7,34 @@ using Microsoft.AspNetCore.Mvc;
 namespace HotelBooking.Controllers;
 
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-public class HotelsController : BaseApiController
+public class HotelsController : MyController
 {
     #region Base set up
-    private readonly IHotelRepository hotelCommands;
-    private readonly IElasticSearchRepository elasticComands;
+    private readonly IHotelService _hotelService;
 
-    public HotelsController(IHotelRepository hotelCommands, IElasticSearchRepository elasticComands)
+    public HotelsController(IHotelService hotelService)
     {
-        this.hotelCommands = hotelCommands;
-        this.elasticComands = elasticComands;
+        _hotelService = hotelService;
     }
 
     #endregion
 
     [HttpGet]
-    public async Task<IActionResult> GetHotelsList()
+    public ActionResult GetHotelsList()
     {
-        var result = await hotelCommands.GetHotelsList();
-
-        return Ok(result);
+        return Ok(_hotelService.GetHotelsList());
     }
 
     [HttpGet("{id}")]
     public ActionResult<Hotel> GetHotelById(int id)
     {
-        return hotelCommands.GetHotelById(id);
+        return _hotelService.GetHotelById(id);
     }
 
-    [HttpPost("AddOrEditHotel")]
+    [HttpPost("AddOrEdit")]
     public ActionResult<Hotel> AddOrEditHotel(Hotel place)
     {
-        return hotelCommands.AddNewOrEditHotel(place);
+        return _hotelService.AddNewOrEditHotel(place);
     }
 }
 

@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace HotelBooking.Interfaces;
+namespace HotelBooking.Service.ElasticService;
 
-public interface IElasticSearchRepository
+public interface IElasticService
 {
     Task<IActionResult> SearchHotels(string keyWord);
 }
-
-

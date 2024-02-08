@@ -1,19 +1,19 @@
-﻿using HotelBooking.Helpers;
-using HotelBooking.Interfaces;
-using HotelBooking.Models;
+﻿using HotelBooking.Models;
+using HotelBooking.Service.JwtServices;
+using HotelBooking.Service.UserService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelBooking.Controllers
 {
-    public class Authentication: BaseApiController
+    public class AuthenticationController: MyController
     {
-        private readonly IUserRepository userCommands;
-        private readonly JwtService jwtService;
+        private readonly IUserService _userService;
+        private readonly JwtService _jwtService;
 
-        public Authentication(IUserRepository userCommands, JwtService jwtService)
+        public AuthenticationController(IUserService userService, JwtService jwtService)
         {
-             this.userCommands = userCommands;
-             this.jwtService = jwtService;
+             _userService = userService;
+             _jwtService = jwtService;
         }
 
         [HttpPost("Login")]
@@ -23,13 +23,13 @@ namespace HotelBooking.Controllers
             {
                 return Ok(new { success = false, message = "Invalid Credentials" });
             }
-            var userInfo = userCommands.GetUser(login);
+            var userInfo = _userService.GetUser(login);
             var validateEmailAndPassword = userInfo.Email != login.Email || !BCrypt.Net.BCrypt.Verify(login.Password, userInfo.Password);
             if (validateEmailAndPassword)
             {
                 return Ok(new { success = false, message = "Invalid Credentials" });
             }
-            var token = jwtService.GenerateToken(userInfo.UserId);
+            var token = _jwtService.GenerateToken(userInfo.UserId);
 
             return Ok(new { success = true, token });
         }
@@ -39,7 +39,7 @@ namespace HotelBooking.Controllers
         {
             try
             {
-                userCommands.AddNewUser(user);
+                _userService.AddNewUser(user);
                 return Ok(new { success = true, message = "Account created successfully" });
             }
             catch
@@ -59,20 +59,20 @@ namespace HotelBooking.Controllers
 
             try
             {      
-                var userId = jwtService.GetUserIdFromToken(key.SecretKey);
+                var userId = _jwtService.GetUserIdFromToken(key.SecretKey);
 
                 if (userId == "" || userId == null)
                 {
                     return Ok(new { success = false, message = "No valid key" });
                 }
 
-                var user = userCommands.GetUserById(int.Parse(userId));
+                var user = _userService.GetUserById(int.Parse(userId));
                 if (user == null)
                 {
                     return Ok(new { success = false, message = "No valid user" });
                 }
 
-                var isActiveKey = userCommands.ChekIfKeyValid(new Key { SecretKey = key.SecretKey, UserId = int.Parse(userId) });
+                var isActiveKey = _userService.CheckIfKeyValid(new Key { SecretKey = key.SecretKey, UserId = int.Parse(userId) });
 
                 if (!isActiveKey)
                 {
@@ -96,7 +96,7 @@ namespace HotelBooking.Controllers
                 return Ok(new { success = false, message = "No email" });
             }
 
-            var result = userCommands.GeneratePasswordChangLink(login.Email);
+            var result = _userService.GeneratePasswordChangLink(login.Email);
 
             return Ok(new { success = result });
         }
@@ -109,7 +109,7 @@ namespace HotelBooking.Controllers
                 return Ok(new { success = false, message = "Plese add valid password" });
             }
 
-            var result = userCommands.ChangePassword(login);
+            var result = _userService.ChangePassword(login);
 
             return Ok(new { success = result });
         }

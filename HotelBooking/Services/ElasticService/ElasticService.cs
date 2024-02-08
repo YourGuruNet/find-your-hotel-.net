@@ -1,22 +1,21 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using HotelBooking.Interfaces;
 using HotelBooking.Models;
 using Microsoft.AspNetCore.Mvc;
 using Nest;
 
-namespace HotelBooking.Repository
+namespace HotelBooking.Service.ElasticService
 {
-	public class ElasticSearchComands : IElasticSearchRepository
+	public class ElasticService : IElasticService
     {
         private readonly IElasticClient elasticClient;
 
-        public ElasticSearchComands(IElasticClient elasticClient)
+        public ElasticService(IElasticClient elasticClient)
         {
             this.elasticClient = elasticClient;
         }
 
-        #region funtions
+        #region functions
         public async Task<IActionResult> SearchHotels(string keyWord)
         {
              var result = await elasticClient.SearchAsync<Hotel>(

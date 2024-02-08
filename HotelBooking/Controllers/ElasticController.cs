@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using HotelBooking.Interfaces;
 using HotelBooking.Models;
-using HotelBooking.Repository;
+using HotelBooking.Service.HotelService;
 using Microsoft.AspNetCore.Mvc;
 using Nest;
 
 namespace HotelBooking.Controllers;
 
-public class ElasticUpdate : BaseApiController
+public class ElasticController : MyController
 {
     private readonly IElasticClient elasticClient;
-    private readonly IHotelRepository hotelCommands;
-    public ElasticUpdate(IElasticClient elasticClient, IHotelRepository hotelCommands)
+    private readonly IHotelService hotelCommands;
+    public ElasticController(IElasticClient elasticClient, IHotelService hotelCommands)
 	{
         this.elasticClient = elasticClient;
         this.hotelCommands = hotelCommands;

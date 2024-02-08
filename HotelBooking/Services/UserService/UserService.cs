@@ -2,18 +2,17 @@
 using System.Data;
 using System.Data.SqlClient;
 using Dapper;
-using HotelBooking.Helpers;
-using HotelBooking.Interfaces;
 using HotelBooking.Models;
+using HotelBooking.Service.JwtServices;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HotelBooking.Repository
+namespace HotelBooking.Service.UserService
 {
-    public class UserCommands : IUserRepository
+    public class UserService : IUserService
     {
         private readonly JwtService jwtService;
 
-        public UserCommands(JwtService jwtService)
+        public UserService(JwtService jwtService)
         { 
             this.jwtService = jwtService;
         }
@@ -65,7 +64,7 @@ namespace HotelBooking.Repository
                 return false; 
             }
 
-            var isKeyValid = ChekIfKeyValid(new Key { SecretKey = login.Key, UserId = int.Parse(userId) });
+            var isKeyValid = CheckIfKeyValid(new Key { SecretKey = login.Key, UserId = int.Parse(userId) });
 
             if (!isKeyValid)
             {
@@ -148,7 +147,7 @@ namespace HotelBooking.Repository
             return true;
         }
 
-        public bool ChekIfKeyValid(Key key)
+        public bool CheckIfKeyValid(Key key)
         {
             try
             {
