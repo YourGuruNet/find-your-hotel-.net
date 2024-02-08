@@ -2,8 +2,10 @@
 using System.Threading.Tasks;
 using HotelBooking.Models;
 using HotelBooking.Service.HotelService;
+using HotelBooking.Service.UserService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelBooking.Controllers;
@@ -14,7 +16,7 @@ public class HotelsController : MyController
     #region Base set up
     private readonly IHotelService _hotelService;
 
-    public HotelsController(IHotelService hotelService)
+    public HotelsController(IHttpContextAccessor httpContextAccessor, IUserService userService, IHotelService hotelService)  : base(httpContextAccessor, userService)
     {
         _hotelService = hotelService;
     }
@@ -33,10 +35,11 @@ public class HotelsController : MyController
         return Ok(await _hotelService.GetHotelById(id));
     }
 
-    [HttpPost("AddOrEdit")]
-    public async Task<ActionResult<ServiceResponse<Hotel>>> AddOrEditHotel(Hotel place)
+    [HttpPost("Add")]
+    public async Task<ActionResult<ServiceResponse<Hotel>>> Add(Hotel place)
     {
-        return Ok(await _hotelService.AddNewOrEditHotel(place));
+        place.CreatorId = User.UserId;
+        return Ok(await _hotelService.Add(place));
     }
 }
 

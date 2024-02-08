@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using HotelBooking.Models;
 using HotelBooking.Service.HotelService;
+using HotelBooking.Service.UserService;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Nest;
 
@@ -12,7 +14,7 @@ public class ElasticController : MyController
 {
     private readonly IElasticClient elasticClient;
     private readonly IHotelService hotelCommands;
-    public ElasticController(IElasticClient elasticClient, IHotelService hotelCommands)
+    public ElasticController(IHttpContextAccessor httpContextAccessor, IUserService userService, IElasticClient elasticClient, IHotelService hotelCommands) : base(httpContextAccessor, userService)
 	{
         this.elasticClient = elasticClient;
         this.hotelCommands = hotelCommands;

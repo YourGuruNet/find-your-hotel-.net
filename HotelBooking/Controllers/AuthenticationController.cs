@@ -1,20 +1,21 @@
 ﻿using HotelBooking.Models;
 using HotelBooking.Service.JwtServices;
 using HotelBooking.Service.UserService;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelBooking.Controllers
 {
-    public class AuthenticationController: MyController
+    public class AuthenticationController : MyController
     {
         private readonly IUserService _userService;
         private readonly JwtService _jwtService;
-
-        public AuthenticationController(IUserService userService, JwtService jwtService)
-        {
+        public AuthenticationController(IHttpContextAccessor httpContextAccessor, IUserService userService, JwtService jwtService ) : base(httpContextAccessor, userService)
+        {  
              _userService = userService;
              _jwtService = jwtService;
-        }
+         
+        } 
 
         [HttpPost("Login")]
         public ActionResult Login(Login login)

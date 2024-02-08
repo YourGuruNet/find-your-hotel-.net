@@ -6,11 +6,11 @@ public class EmailSender
 {
     public static void SendEmail(string to, string subject, string body)
     {
-        var fromAddress = new MailAddress(Settings.Mail, "Hotel Booking");
+        var fromAddress = new MailAddress(Settings.Mail ?? "", "Hotel Booking");
         var toAddress = new MailAddress(to);
         var smtpClient = new SmtpClient
         {
-            Host = Settings.Host,
+            Host = Settings.Host ?? "",
             Port = 587,
             EnableSsl = true,
             DeliveryMethod = SmtpDeliveryMethod.Network,

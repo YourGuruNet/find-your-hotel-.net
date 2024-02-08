@@ -8,7 +8,7 @@ namespace HotelBooking.Service.HotelService
     {
         public Task<ServiceResponse<List<Hotel>>> GetHotelsList();
         public Task<ServiceResponse<Hotel>> GetHotelById(int placeId);
-        public Task<ServiceResponse<Hotel>> AddNewOrEditHotel(Hotel place);
+        public Task<ServiceResponse<Hotel>> Add(Hotel place);
         
     }
 }

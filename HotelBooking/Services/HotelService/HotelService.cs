@@ -1,13 +1,11 @@
 ﻿using Dapper;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using HotelBooking.Models;
-using System.Linq;
-using System.Data;
 using System;
 using System.Threading.Tasks;
 using HotelBooking.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace HotelBooking.Service.HotelService
 {
@@ -15,7 +13,7 @@ namespace HotelBooking.Service.HotelService
     {    
         private readonly DataContext _dataContext;
 
-        public HotelService( DataContext dataContext)
+        public HotelService( DataContext dataContext, IHttpContextAccessor httpContextAccessor)
         {
             _dataContext = dataContext;
         }
@@ -41,11 +39,8 @@ namespace HotelBooking.Service.HotelService
         {
             var serviceResponse = new ServiceResponse<Hotel>();
             try
-            {
-                using SqlConnection connection = new(Settings.BaseConnection);
-                var hotel = (await connection.QueryFirstOrDefaultAsync<Hotel>("sp_cafe_getList_by_id",
-                 new { hotelId }, commandType: CommandType.StoredProcedure)) ?? throw new Exception($"Hotels not found");
-            
+            {       
+                var hotel =   await _dataContext.Hotels.FirstOrDefaultAsync(hotel => hotel.HotelId == hotelId)  ?? throw new Exception($"Hotels not found");   
                 serviceResponse.Data = hotel;
                 return serviceResponse;
             
@@ -57,29 +52,14 @@ namespace HotelBooking.Service.HotelService
             }
         }
 
-        public async Task<ServiceResponse<Hotel>> AddNewOrEditHotel(Hotel place)
+        public async Task<ServiceResponse<Hotel>> Add(Hotel hotel)
         {
              var serviceResponse = new ServiceResponse<Hotel>();
             try
             {
-                using SqlConnection connection = new(Settings.BaseConnection);
-                var hotel =  await connection.QueryFirstOrDefaultAsync<Hotel>("sp_hotel_upsert", new {
-                    place.HotelId,
-                    place.Title,
-                    place.City,
-                    place.Address,
-                    place.Country,
-                    place.HotelDescription,
-                    place.Latitude,
-                    place.Longitude,
-                    place.PictureUrl,
-                    place.Logo,
-                    place.CreatorId,
-                    place.FiltersList,
-                    place.LabelsList
-
-                }, commandType: CommandType.StoredProcedure);
-
+                var newHotel = hotel;
+                _dataContext.Hotels.Add(hotel);
+                await _dataContext.SaveChangesAsync(); 
                 serviceResponse.Data = hotel;
                 return serviceResponse;
             }
