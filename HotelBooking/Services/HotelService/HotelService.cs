@@ -6,19 +6,27 @@ using System.Linq;
 using System.Data;
 using System;
 using System.Threading.Tasks;
+using HotelBooking.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.Service.HotelService
 {
     public class HotelService : IHotelService
-    { 
+    {    
+        private readonly DataContext _dataContext;
+
+        public HotelService( DataContext dataContext)
+        {
+            _dataContext = dataContext;
+        }
+
         public async Task<ServiceResponse<List<Hotel>>> GetHotelsList()
         {
             var serviceResponse = new ServiceResponse<List<Hotel>>();
             try
             {
-                using SqlConnection connection = new(Settings.BaseConnection);
-                var hotels = await connection.QueryAsync<Hotel>("sp_getHotelsList");
-                serviceResponse.Data = hotels.ToList();
+                var hotels = await _dataContext.Hotels.ToListAsync();
+                serviceResponse.Data = hotels;
                 return serviceResponse;
             }
             catch (Exception ex)

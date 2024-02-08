@@ -9,7 +9,6 @@ namespace HotelBooking.Data
     {
 
     }
-
-        public DbSet<Hotel> Characters => Set<Hotel>();
+        public DbSet<Hotel> Hotels => Set<Hotel>();
     }
 }

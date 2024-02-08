@@ -25,7 +25,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IElasticService, ElasticService>();
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddDbContext<DataContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStrings")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("BaseConnection")));
 builder.Services.AddSingleton(builder.Configuration.GetSection("ConnectionStrings").Get<Settings>());
 builder.Services.AddSingleton(builder.Configuration.GetSection("DeepLinksSettings").Get<Settings>());
 builder.Services.AddSingleton(builder.Configuration.GetSection("Mail").Get<Settings>());
